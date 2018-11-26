@@ -11,6 +11,9 @@ not require a roboRio.
 Other than not wiring the LED correctly (be sure to connect positive to the signal pin!), this code worked
 the first time upon deployment to the roboRio. Yes, it's simple. But even one line of code can have a bug.
 
+For an in-depth walkthough, see [The TestableCommandRobot](https://www.youtube.com/watch?v=rbSPkhAgLk0). Sorry ahead of time for the length. There is much
+to cover.
+
 ## Usage
 1. Change the team number in ```.wpilib/wpilib_preferences.json``` to your team number.
 2. Modify the paths in ```.vscode/launch.test.json``` to match your environment. Sorry, but it does not appear that
