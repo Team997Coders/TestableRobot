@@ -19,9 +19,11 @@ public class RobotMap {
   // public static int leftMotor = 1;
   // public static int rightMotor = 2;
 
-  public static int led = 0;
-  public static int joystickPort = 0;
-  public static int buttonNumber = 1;
+  // These should always be declared final, because within a running robot program
+  // they should NEVER change.
+  public static final int led = 0;
+  public static final int joystickPort = 0;
+  public static final int buttonNumber = 1;
 
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
