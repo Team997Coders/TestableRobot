@@ -30,7 +30,8 @@ public class HelloWorldSubsystem extends Subsystem {
    * way, we can always instantiate this class, even if hardware does not actually exist.
    * The requirement of instantiation is an "invariant". In order to even have the hope
    * of automated testing, we must always be able to instantiate our class.
-   * @param led
+   * 
+   * @param led   Digital output hardware our led is connected to
    */
   public HelloWorldSubsystem(DigitalOutput led) {
 

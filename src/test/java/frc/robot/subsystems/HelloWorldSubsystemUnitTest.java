@@ -1,11 +1,11 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.HLUsageReporting;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.DigitalOutput;
-import org.junit.*;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 
@@ -15,16 +15,11 @@ import static org.mockito.Mockito.*;
  * subsystems.
  */
 public class HelloWorldSubsystemUnitTest {
-    // Fake out WPILib caring whether or not we have a roboRio.
-    static {
-        HLUsageReporting.SetImplementation(new HLUsageReporting.Null());
-    }
-
     /**
      * A test to make sure no one has cross-wired dependencies such
      * that our class is no longer testable.
      */
-    @Test(expected = Test.None.class /* no exception expected */)
+    @Test
     public void itShouldInstantiateGivenAnLED() {
         // Assemble
         DigitalOutput mockLED = mock(DigitalOutput.class);
@@ -33,39 +28,43 @@ public class HelloWorldSubsystemUnitTest {
         HelloWorldSubsystem classUnderTest = new HelloWorldSubsystem(mockLED);
 
         // Assert
-        // Our test decorator contains the assertion
+        /* no exception expected */
     }
 
     /**
      * A test to make sure that if a sneaky user tries to give us
      * a null LED, we do not let them.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void itShouldNotInstantiateWithANullLED() {
         // Assemble
         // Nothing to do
 
         // Act
-        HelloWorldSubsystem classUnderTest = new HelloWorldSubsystem(null);
+        // Nothing to do
 
-        // Assert
-        // Our test decorator contains the assertion
+        //Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new HelloWorldSubsystem(null);
+        });
     }
 
     /**
      * A test to make sure that the user knows that a parameterless constructor
      * is verboden.
      */
-    @Test(expected = IllegalAccessError.class)
+    @Test
     public void itShouldNotInstantiateWithNoLED() {
         // Assemble
         // Nothing to do
 
         // Act
-        HelloWorldSubsystem classUnderTest = new HelloWorldSubsystem();
+        // Nothing to do
 
         // Assert
-        // Our test decorator contains the assertion
+        assertThrows(IllegalAccessError.class, () -> {
+            new HelloWorldSubsystem();
+        });
     }
 
     /**
@@ -160,6 +159,6 @@ public class HelloWorldSubsystemUnitTest {
         // Nothing to do
 
         // Assert
-        assertEquals("Tell electrical that the LED port has changed, and then update this test.", 0, RobotMap.led);
+        assertEquals(0, RobotMap.silenceableLED, "Tell electrical that the LED port has changed, and then update this test.");
     }
 }

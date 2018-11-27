@@ -4,6 +4,7 @@ import java.util.concurrent.*;
 
 /**
  * Implement a very skinny command runner that enables easy unit test of a command.
+ * No external dependencies are required.
  */
 public class SchedulerTestHelper {
     private Command commandToRun = null;
@@ -14,7 +15,7 @@ public class SchedulerTestHelper {
      * Default constructor initialized runner heartbeat to 20 ms
      */
     public SchedulerTestHelper() {
-        heartbeatMilliseconds = 20;
+        this(20);
     }
 
     /**

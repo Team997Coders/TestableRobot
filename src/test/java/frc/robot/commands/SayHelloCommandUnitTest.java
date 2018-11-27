@@ -1,12 +1,11 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.HLUsageReporting;
 import edu.wpi.first.wpilibj.command.CommandHelper;
 import edu.wpi.first.wpilibj.command.SchedulerTestHelper;
 import frc.robot.subsystems.HelloWorldSubsystem;
-import org.junit.*;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.concurrent.ExecutionException;
@@ -15,11 +14,6 @@ import java.util.concurrent.ExecutionException;
  * These are unit tests for the say hello command, which blinks an LED.
  */
 public class SayHelloCommandUnitTest {
-    // Fake out WPILib caring whether or not we have a roboRio.
-    static {
-        HLUsageReporting.SetImplementation(new HLUsageReporting.Null());
-    }
-
     // A command is typically executed by the WPILib scheduler. But in a unit test,
     // we really want to skinny down the number of dependencies we involve in doing 
     // the testing. And further, we want to control those dependencies so that our
@@ -34,7 +28,7 @@ public class SayHelloCommandUnitTest {
      * our scheduled command every 20 milliseconds
      * (what WPILib will do, I believe)
      */
-    @Before
+    @BeforeEach
     public void setupSchedulerHelper() {
         scheduler = new SchedulerTestHelper(20);
     }
@@ -44,7 +38,7 @@ public class SayHelloCommandUnitTest {
      * to do its work, and if you do not tear it down, the test runner will never
      * terminate.
      */
-    @After
+    @AfterEach
     public void cleanUpSchedulerHelper() {
         scheduler.destroy();
     }
@@ -53,15 +47,12 @@ public class SayHelloCommandUnitTest {
      * A test that checks that the command will flash the LED through the
      * hello world subsystem the requisite number of times once run
      * under the scheduler. Exceptions can be thrown by the scheduler
-     * and if they are, then the test will fail. That's fine. One test
-     * success criteria is defined by the Test decorator parameter that
-     * says we should not exit the method with anything on the stack
-     * (an exception, for example).
+     * and if they are, then the test will fail. That's fine.
      * 
      * @throws InterruptedException
      * @throws ExecutionException
      */
-    @Test(expected = Test.None.class /* no exception expected */)
+    @Test /* no exception expected */
     public void itCanFlashMyLEDEvery200ms() throws InterruptedException, ExecutionException {
         // Assemble
         HelloWorldSubsystem mockHelloWorldSubsystem = mock(HelloWorldSubsystem.class);
@@ -89,7 +80,7 @@ public class SayHelloCommandUnitTest {
      * @throws InterruptedException
      * @throws ExecutionException
      */
-    @Test(expected = Test.None.class /* no exception expected */)
+    @Test /* no exception expected */
     public void itTurnsOffMyLEDWhenStopping() throws InterruptedException, ExecutionException {
         // Assemble
         HelloWorldSubsystem mockHelloWorldSubsystem = mock(HelloWorldSubsystem.class);

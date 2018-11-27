@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -15,8 +16,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.buttons.*;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commandgroups.SayHelloInTurnCommandGroup;
 import frc.robot.commands.SayHelloCommand;
+import frc.robot.commands.SayHelloUntilSilencedCommand;
 import frc.robot.subsystems.HelloWorldSubsystem;
+import frc.robot.subsystems.SilenceableHelloWorldSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,17 +40,24 @@ import frc.robot.subsystems.HelloWorldSubsystem;
  * code without a roboRio.
  */
 public class Robot extends TimedRobot {
+  // You might decide to organize these in their own classes and hang
+  // a reference to that class here instead.
   // Declare hardware
-  private final DigitalOutput led;
+  private final DigitalOutput silenceableLED;
+  private final DigitalOutput perpetualLED;
+  private final DigitalInput silencer;
   // Declare subsystems
   private final HelloWorldSubsystem helloWorldSubsystem;
+  private final SilenceableHelloWorldSubsystem silenceableHelloWorldSubsystem;
   // Declare commands
   private final SayHelloCommand sayHelloCommand;
+  private final SayHelloUntilSilencedCommand sayHelloUntilSilencedCommand;
   // Declare command groups
-  //   nothing to declare
+  private final SayHelloInTurnCommandGroup sayHelloCommandGroup;
   // Declare operator interface
   private final Joystick stick; 
-  private final Button button;
+  private final Button simpleButton;
+  private final Button commandGroupButton;
 
   private Command m_autonomousCommand;
   private SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -58,11 +69,20 @@ public class Robot extends TimedRobot {
    */
   public Robot() {
     super();
-    this.led = new DigitalOutput(RobotMap.led);
-    this.helloWorldSubsystem = new HelloWorldSubsystem(led);
+    // Simple hello world
+    this.perpetualLED = new DigitalOutput(RobotMap.perpetualLED);
+    this.helloWorldSubsystem = new HelloWorldSubsystem(perpetualLED);
     this.sayHelloCommand = new SayHelloCommand(helloWorldSubsystem);
     this.stick = new Joystick(RobotMap.joystickPort);
-    this.button = new JoystickButton(stick, RobotMap.buttonNumber);
+    this.simpleButton = new JoystickButton(stick, RobotMap.simpleButtonNumber);
+
+    // Additional components for command group demonstration
+    this.silenceableLED = new DigitalOutput(RobotMap.silenceableLED);
+    this.silencer = new DigitalInput(RobotMap.silencer);
+    this.silenceableHelloWorldSubsystem = new SilenceableHelloWorldSubsystem(silenceableLED, silencer);
+    this.sayHelloUntilSilencedCommand = new SayHelloUntilSilencedCommand(silenceableHelloWorldSubsystem);
+    this.sayHelloCommandGroup = new SayHelloInTurnCommandGroup(sayHelloUntilSilencedCommand, sayHelloCommand);
+    this.commandGroupButton = new JoystickButton(stick, RobotMap.commandGroupButtonNumber);
   }
 
   /**
@@ -70,7 +90,8 @@ public class Robot extends TimedRobot {
    * method here to contain all that logic.
    */
   public void wireUpOperatorInterface() {
-    button.whileHeld(sayHelloCommand);
+    simpleButton.whileHeld(sayHelloCommand);
+    commandGroupButton.whileHeld(sayHelloCommandGroup);
   }
 
   /**

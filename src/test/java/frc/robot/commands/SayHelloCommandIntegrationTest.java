@@ -1,12 +1,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.HLUsageReporting;
 import edu.wpi.first.wpilibj.command.SchedulerTestHelper;
 import frc.robot.subsystems.HelloWorldSubsystem;
-import org.junit.*;
-import static org.mockito.Mockito.*;
 import java.util.concurrent.ExecutionException;
+import org.junit.jupiter.api.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Integration tests that make sure that when our command acts on a subsystem,
@@ -15,11 +14,6 @@ import java.util.concurrent.ExecutionException;
  * to see if they act on each other as expected.
  */
 public class SayHelloCommandIntegrationTest {
-    // Fake out WPILib caring whether or not we have a roboRio.
-    static {
-        HLUsageReporting.SetImplementation(new HLUsageReporting.Null());
-    }
-
     // A command is typically executed by the WPILib scheduler. But in a unit test,
     // we really want to skinny down the number of dependencies we involve in doing 
     // the testing. And further, we want to control those dependencies so that our
@@ -34,7 +28,7 @@ public class SayHelloCommandIntegrationTest {
      * our scheduled command every 20 milliseconds
      * (what WPILib will do, I believe)
      */
-    @Before
+    @BeforeEach
     public void setupSchedulerHelper() {
         scheduler = new SchedulerTestHelper(20);
     }
@@ -44,7 +38,7 @@ public class SayHelloCommandIntegrationTest {
      * to do its work, and if you do not tear it down, the test runner will never
      * terminate.
      */
-    @After
+    @AfterEach
     public void cleanUpSchedulerHelper() {
         scheduler.destroy();
     }
@@ -61,7 +55,7 @@ public class SayHelloCommandIntegrationTest {
      * @throws InterruptedException
      * @throws ExecutionException
      */
-    @Test(expected = Test.None.class /* no exception expected */)
+    @Test /* no exception expected */
     public void itCanFlashMyLEDEvery200ms() throws InterruptedException, ExecutionException {
         // Assemble
         // Because I can mock the hardware, I don't need a roboRio, and because

@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2019.0.0-alpha-3"
+    id "edu.wpi.first.GradleRIO" version "2019.1.1-beta-2a"
 }
 
 def ROBOT_CLASS = "frc.robot.Robot"
@@ -33,14 +33,21 @@ repositories {
     mavenCentral()
 }
 
+project.repositories.maven { repo ->
+    repo.name = "WPI"
+    repo.url = "http://first.wpi.edu/FRC/roborio/maven/release"
+}
+
 // Defining my dependencies. In this case, WPILib (+ friends), CTRE Toolsuite (Talon SRX)
 // and NavX.
 dependencies {
     compile wpilib()
-    compile ctre()
-    compile navx()
+//    compile ctre() //These seem to be missing from later templates...now included inside wpilib?
+//    compile navx()
     // Add more more friends...JUnit and Mockito
-    testCompile 'junit:junit:4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.2.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
     testCompile 'org.mockito:mockito-core:2.7.22'
 }
 
@@ -50,6 +57,10 @@ dependencies {
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
+}
+
+test {
+    useJUnitPlatform()
 }
 
 // Force Java 8 Compatibility mode for deployed code, in case the develoment
