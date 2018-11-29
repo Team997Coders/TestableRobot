@@ -29,19 +29,20 @@ import frc.robot.subsystems.SilenceableHelloWorldSubsystem;
  * creating this project, you must also update the build.gradle file in the
  * project.
  * 
- * This is a typical hello world type robot program that flashes an LED when a button
- * is pressed on a joystick. 
+ * This is a typical hello world type robot program that flashes an LED0 when button 1
+ * is pressed on the default joystick.
  * 
- * This project is based on the CommandRobot VSCode template, lovingly called the
- * UntestableCommandRobot. This template has been altered to enable you to test
- * all commands and subsystems. Let's call this one TestableCommandRobot. 
+ * It also demonstrates a sequential command group. When button 2 is pressed LED0 
+ * will flash. When DigitalInput 3 is asserted, then LED1 will flash and LED0 will
+ * turn off. Don't forget your dropping resistors if you hook up LEDs.
+ * 
+ * This project is based on the CommandRobot VSCode template.  It has been altered 
+ * to enable you to test all commands, command groups, and subsystems. 
  * Well, almost. Note the the Robot class itself is not *yet* testable. Stay tuned...
- * When you run "./gradlew build", marvel at the test task output as it runs your
- * code without a roboRio.
+ * When you run "./gradlew build", marvel at the test task output as it tests your
+ * code without a roboRio and without complex simulators.
  */
 public class Robot extends TimedRobot {
-  // You might decide to organize these in their own classes and hang
-  // a reference to that class here instead.
   // Declare hardware
   private final DigitalOutput silenceableLED;
   private final DigitalOutput perpetualLED;

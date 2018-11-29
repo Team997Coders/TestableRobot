@@ -11,7 +11,7 @@ public class SayHelloUntilSilencedCommand extends SayHelloCommand {
     // The answer is there is really no good reason for state to cross boundaries, in this case.
     // You have to come up with really good reasons to leak state and this is not
     // one of them. Leaky state opens up more opportunities for bugs.
-    // Just hold on to the reference here again and use it. No biggie.
+    // Just hold on to the reference here again and use it.
     private final SilenceableHelloWorldSubsystem silenceableHelloWorldSubsystem;
 
     /**

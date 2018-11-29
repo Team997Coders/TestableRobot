@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-//import frc.robot.Robot; /* Just say no...there is no reason to do this in a command! /*
 import frc.robot.subsystems.*;
 import java.util.concurrent.TimeUnit;
 
@@ -27,9 +26,6 @@ public class SayHelloCommand extends Command {
    * @param helloWorldSubsystem   The subsystem that the command will manipulate.
    */
   public SayHelloCommand(HelloWorldSubsystem helloWorldSubsystem) {
-    // Use requires() here to declare subsystem dependencies
-    // NOTE: Don't reach outside your class boundary.
-    // Don't do requires(Robot.m_helloWorldSubsystem)
     requires(helloWorldSubsystem);
     this.helloWorldSubsystem = helloWorldSubsystem;
   }
@@ -46,7 +42,7 @@ public class SayHelloCommand extends Command {
   protected void execute() {
     // Flash the LED by setting up a timing check that looks at the time elapsed
     // from the last time we flipped the LED state.
-    // You could (should) use PWM, but that would make my testing illustration less interesting.
+    // You could (should) use PWM, but that would testing illustration less interesting.
     // And by the way, don't use Thread.sleep() in the these command execute methods!
     long now = System.nanoTime();
     if (now > (lastTime + TimeUnit.MILLISECONDS.toNanos(200))) {

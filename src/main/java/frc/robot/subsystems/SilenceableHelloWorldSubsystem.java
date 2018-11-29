@@ -5,9 +5,7 @@ import edu.wpi.first.wpilibj.DigitalOutput;
 
 /**
  * An example subsystem which encapsuates an LED with the added behavior
- * of silencing it on demand from external stimulus. Note that we do not
- * need to rip up our rigorously tested HelloWorldSubsystem. Just extend and
- * add the needed additional behavior. Object orientation. Yes!
+ * of silencing it on demand from external stimulus.
  */
 public class SilenceableHelloWorldSubsystem extends HelloWorldSubsystem {
 

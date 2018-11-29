@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.DigitalOutput;
+import java.lang.reflect.Constructor;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -50,11 +51,11 @@ public class HelloWorldSubsystemUnitTest {
     }
 
     /**
-     * A test to make sure that the user knows that a parameterless constructor
-     * is verboden.
+     * A test to catch a developer adding presumably another constructor. Enforce 
+     * invariant to make sure class can always be instantiated.
      */
     @Test
-    public void itShouldNotInstantiateWithNoLED() {
+    public void itShouldHaveOnlyOneConstructor() {
         // Assemble
         // Nothing to do
 
@@ -62,9 +63,7 @@ public class HelloWorldSubsystemUnitTest {
         // Nothing to do
 
         // Assert
-        assertThrows(IllegalAccessError.class, () -> {
-            new HelloWorldSubsystem();
-        });
+        assertEquals(1, (HelloWorldSubsystem.class).getDeclaredConstructors().length);
     }
 
     /**

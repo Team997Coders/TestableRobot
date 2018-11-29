@@ -47,20 +47,6 @@ public class HelloWorldSubsystem extends Subsystem {
   }
 
   /**
-   * Be really, really, really restrictive and deliberate.
-   * Remember our valid reference to an LED invariant?
-   * This makes it so we do not break that invariant. So this constructor is not allowed.
-   * You COULD create the hardware here as a convenience for your user, but it results
-   * in an untestable method. Confucious say: if you can't test it, it should not exist.
-   * Now, technically you do not need to do this. If you have any other constructor on
-   * your class, then Java will not create a default parameterless constructor. But this would
-   * tell another developer...hey, I did this deliberately. Don't add one.
-   */
-  public HelloWorldSubsystem() {
-    throw new IllegalAccessError("There is only one way to construct me. Pass in my dependencies please.");
-  }
-
-  /**
    * Instance method to interact with our hardware...turning on LED.
    */
   public void turnOnLED() {
@@ -83,13 +69,7 @@ public class HelloWorldSubsystem extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-
-    // NOTE: Do not do as this comment suggests. If you want to 
-    // wire up a default command, pass in that command as a dependency
-    // in the constructor and then set it here. Keep your classes testable
-    // by decoupling dependencies. Instantiate dependencies on the outside
-    // and pass them in.
+    // To init a default command, pass an instantiated command into the constructor.
+    // setDefaultCommand(new mySpecialCommand());
   }
 }
