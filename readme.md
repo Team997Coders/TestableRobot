@@ -11,7 +11,7 @@ second LED will flash, turning off the first. Testing of a command group is demo
 Also, compared to the prior revision, I have upgraded the build to use the 2019.1.1-beta-2 WPILib revision and GradleRIO 2019.1.1-beta-2a.
 In addition, the testing framework was upgraded to JUnit5 to be at the same level as WPI.
 
-For an in-depth walkthough, see [Testable Command Groups](https://www.youtube.com/watch?v=DusNuZwCGAM). It is not nearly as long as the last one. Promise!
+For an in-depth walkthough, see [Testable Command Robot](https://www.youtube.com/watch?v=rbSPkhAgLk0) and [Testable Command Groups](https://www.youtube.com/watch?v=DusNuZwCGAM). It is not nearly as long as the last one. Promise!
 
 ## Usage
 1. Download [Visual Studio 2017 Community Edition](https://visualstudio.microsoft.com/downloads/). Install C++ desktop support.
