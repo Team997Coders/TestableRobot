@@ -1,3 +1,10 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -14,9 +21,9 @@ public class SilenceableHelloWorldSubsystem extends HelloWorldSubsystem {
    * because the user of the class should have no business fooling with
    * internal state directly. Use instance methods to perform actions on hardware.
    * We make it final because the instance needs to count on the fact that the
-   * hardware will not change out from under it throughout its life.
+   * hardware will not change out from under it throughout its life (immutable).
    */
-  private final DigitalInput silencer;
+  private final DigitalInput m_silencer;
 
   /**
    * We create a constructor to inject "dependencies" into our class. Do not instantiate
@@ -36,11 +43,11 @@ public class SilenceableHelloWorldSubsystem extends HelloWorldSubsystem {
     // valid reference to our sensor will exist. So complain 
     // if our invited guest is nothingness.
     if (silencer == null) {
-        throw new IllegalArgumentException("I must have what at least looks like a silencer!");
+      throw new IllegalArgumentException("I must have what at least looks like a silencer!");
     }
 
     // Assign our invited guest to an instance variable, so we can use it later.
-    this.silencer = silencer;
+    this.m_silencer = silencer;
   }
 
   /**
@@ -48,6 +55,6 @@ public class SilenceableHelloWorldSubsystem extends HelloWorldSubsystem {
    * @return    True if silence is sensed
    */
   public boolean beSilent() {
-    return silencer.get(); 
+    return m_silencer.get(); 
   }
 }

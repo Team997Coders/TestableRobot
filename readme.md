@@ -11,7 +11,7 @@ second LED will flash, turning off the first. Testing of a command group is demo
 Also, compared to the prior revision, I have upgraded the build to use the 2019.1.1-beta-2 WPILib revision and GradleRIO 2019.1.1-beta-2a.
 In addition, the testing framework was upgraded to JUnit5 to be at the same level as WPI.
 
-For an in-depth walkthough, see [Testable Command Robot](https://www.youtube.com/watch?v=rbSPkhAgLk0) and [Testable Command Groups](https://www.youtube.com/watch?v=DusNuZwCGAM). It is not nearly as long as the last one. Promise!
+For an in-depth walkthough, see [Testable Command Robot](https://www.youtube.com/watch?v=rbSPkhAgLk0) and [Testable Command Groups](https://www.youtube.com/watch?v=DusNuZwCGAM). These videos were recorded against tagged versions of this repository (see comments on video). The master version has changed somewhat.
 
 ## Usage
 1. Download [Visual Studio 2017 Community Edition](https://visualstudio.microsoft.com/downloads/). Install C++ desktop support.
@@ -23,4 +23,4 @@ MS substitution macros yet work here (arg!).
 5. Type ```./gradlew build``` and marvel that testing can be a thing.
 
 ## Pending
-I am attempting to integrate certain helpers in this project with wpilibj. Also, VS2017 should not need to be installed after 2019 release.
+The master branch now represents the a close revision to the testablerobot example that I am attempting to integrate into allwpilib. See [Add java testablerobot example](https://github.com/wpilibsuite/allwpilib/pull/1461). Also, VS2017 should not need to be installed after 2019 release (just the VS runtime).

@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj;
+package frc.robot.test.helpers;
 
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -14,6 +14,10 @@ import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.hal.sim.DriverStationSim;
 
+/**
+ * JUnit 5 testing extension which ensures all WPILib foundational bits
+ * are initialized to be able to run the scheduler. 
+ */
 public final class MockHardwareExtension implements BeforeAllCallback {
   private static ExtensionContext getRoot(ExtensionContext context) {
     return context.getParent().map(MockHardwareExtension::getRoot).orElse(context);
@@ -34,5 +38,7 @@ public final class MockHardwareExtension implements BeforeAllCallback {
     dsSim.setAutonomous(false);
     dsSim.setEnabled(true);
     dsSim.setTest(true);
+
+
   }
 }

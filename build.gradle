@@ -9,7 +9,7 @@ def ROBOT_CLASS = "frc.robot.Robot"
 // This is added by GradleRIO's backing project EmbeddedTools.
 deploy {
     targets {
-        target("roborio", edu.wpi.first.gradlerio.frc.RoboRIO) {
+        roboRIO("roborio") {
             // Team number is loaded either from the .wpilib/wpilib_preferences.json
             // or from command line. If not found an exception will be thrown.
             // You can use getTeamOrDefault(team) instead of getTeamNumber if you
@@ -18,10 +18,18 @@ deploy {
         }
     }
     artifacts {
-        artifact('frcJava', edu.wpi.first.gradlerio.frc.FRCJavaArtifact) {
+        frcJavaArtifact('frcJava') {
             targets << "roborio"
             // Debug can be overridden by command line, for use with VSCode
             debug = getDebugOrDefault(false)
+        }
+        // Built in artifact to deploy arbitrary files to the roboRIO.
+        fileTreeArtifact('frcStaticFileDeploy') {
+            // The directory below is the local directory to deploy
+            files = fileTree(dir: 'src/main/deploy')
+            // Deploy to RoboRIO target, into /home/lvuser/deploy
+            targets << "roborio"
+            directory = '/home/lvuser/deploy'
         }
     }
 }
@@ -30,8 +38,14 @@ deploy {
 // this will behave at competition when workstation is not connected to
 // the Internet. Need to test behavior...
 repositories {
+    mavenLocal()
     mavenCentral()
 }
+
+wpi {
+    wpilibVersion = '2019.424242.1.1-beta-2-20181201090520-19-g9bc1054-dirty'
+}
+
 
 project.repositories.maven { repo ->
     repo.name = "WPI"
@@ -42,13 +56,13 @@ project.repositories.maven { repo ->
 // and NavX.
 dependencies {
     compile wpilib()
-//    compile ctre() //These seem to be missing from later templates...now included inside wpilib?
-//    compile navx()
-    // Add more more friends...JUnit and Mockito
+    compile javaVendorLibraries()
+    nativeZip jniRoboRIOVendorLibraries()
+    nativeDesktopZip jniDesktopVendorLibraries()
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.2.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
-    testCompile 'org.mockito:mockito-core:2.23.4'
+    testImplementation 'org.mockito:mockito-core:2.23.4'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
@@ -68,6 +82,15 @@ test {
 compileJava {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
+}
+
+sourceSets {
+    test {
+        java.srcDir 'src/main/java/frc/robot/test' // tests in main shall contain your tests...usually put them in /src/test/java/...
+    }
+    main {
+        java.exclude 'frc/robot/test/**' // exclude from main source set 
+    }
 }
 
 wrapper {
