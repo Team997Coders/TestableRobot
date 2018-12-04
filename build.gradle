@@ -86,7 +86,7 @@ compileJava {
 
 sourceSets {
     test {
-        java.srcDir 'src/main/java/frc/robot/test' // tests in main shall contain your tests...usually put them in /src/test/java/...
+        java.srcDir 'src/main/java' // tests in main shall contain your tests...usually put them in /src/test/java/...
     }
     main {
         java.exclude 'frc/robot/test/**' // exclude from main source set 
