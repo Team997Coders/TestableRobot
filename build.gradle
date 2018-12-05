@@ -38,14 +38,8 @@ deploy {
 // this will behave at competition when workstation is not connected to
 // the Internet. Need to test behavior...
 repositories {
-    mavenLocal()
     mavenCentral()
 }
-
-wpi {
-    wpilibVersion = '2019.424242.1.1-beta-2-20181201090520-19-g9bc1054-dirty'
-}
-
 
 project.repositories.maven { repo ->
     repo.name = "WPI"
