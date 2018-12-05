@@ -9,7 +9,7 @@ It also has a button 2 that will flash an LED, and then when a digital input is 
 second LED will flash, turning off the first. Testing of a command group is thus demonstrated.
 
 Also, compared to the prior revision, I have upgraded the build to use the 2019.1.1-beta-2 WPILib revision and GradleRIO 2019.1.1-beta-2a.
-In addition, the testing framework was upgraded to JUnit5 to be at the same level as WPI. Current revisons of the beta command robot template
+In addition, the testing framework was upgraded to JUnit5 to be at the same level as WPILib. Current revisons of the beta VSCode plugin generated command robot template
 use JUnit 4, so it remains to be seen which version WPI will settle on once released.
 
 For an in-depth walkthough, see [Testable Command Robot](https://www.youtube.com/watch?v=rbSPkhAgLk0) and [Testable Command Groups](https://www.youtube.com/watch?v=DusNuZwCGAM). These videos were recorded against tagged versions of this repository (see comments on video). The master version has changed somewhat.
