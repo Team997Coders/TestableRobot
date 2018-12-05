@@ -25,6 +25,7 @@ MS substitution macros yet work here (arg!).
 5. Type ```./gradlew build``` and marvel that testing can be a thing.
 
 ## Pending
-The master branch now represents a close revision to the testablerobot example that I am attempting to integrate into allwpilib. See [Add java testablerobot example](https://github.com/wpilibsuite/allwpilib/pull/1461).
+The allwpilib branch now represents a close revision to the testablerobot example that we are attempting to integrate into allwpilib. See [Add java testablerobot example](https://github.com/wpilibsuite/allwpilib/pull/1461). The master branch will represent additional work including more advanced testing topics, like use of inversion of 
+control containers. It is not intended that these more advanced features will appear in the VSCode plugin example. The master version has also been modified to run against the lastest beta of allwpilib, which means that you should be able to download it and run the tests irrespective of whether WPI merges our PR.
 
 Also, VS2017 should not need to be installed after 2019 release (just the VS runtime, which I hope will be bundled with all the other dependencies). At present, the beta version of WPILib is linked to the debug version of the Visual C runtime.
