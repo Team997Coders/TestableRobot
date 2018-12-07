@@ -7,6 +7,8 @@
 
 package frc.robot.commandgroups;
 
+import com.google.inject.Inject;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import frc.robot.commands.SayHelloCommand;
@@ -26,6 +28,7 @@ public class SayHelloInTurnCommandGroup extends CommandGroup {
    * @param sayHelloUntilSilencedCommand  Our first say hello command to run until silenced
    * @param sayHelloCommand               Our second say hello command to run thereafter
    */
+  @Inject
   public SayHelloInTurnCommandGroup(
       SayHelloUntilSilencedCommand sayHelloUntilSilencedCommand, 
       SayHelloCommand sayHelloCommand) {

@@ -7,8 +7,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalOutput;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -20,9 +21,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.commandgroups.SayHelloInTurnCommandGroup;
 import frc.robot.commands.SayHelloCommand;
-import frc.robot.commands.SayHelloUntilSilencedCommand;
-import frc.robot.subsystems.HelloWorldSubsystem;
-import frc.robot.subsystems.SilenceableHelloWorldSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -46,15 +44,10 @@ import frc.robot.subsystems.SilenceableHelloWorldSubsystem;
  * subsystems, commands, and commandgroups without a roboRio and/or complex simulators.
  */
 public class Robot extends TimedRobot {
-  // Declare hardware
-  // Declare subsystems
-  // Declare commands
-  private final SayHelloCommand m_sayHelloCommand;
-  // Declare command groups
-  private final SayHelloInTurnCommandGroup m_sayHelloCommandGroup;
   // Declare operator interface
   private final Button m_simpleButton;
   private final Button m_commandGroupButton;
+  private final Injector m_injector;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -66,22 +59,15 @@ public class Robot extends TimedRobot {
    */
   public Robot() {
     super();
-    // Simple hello world
-    HelloWorldSubsystem helloWorldSubsystem = 
-        new HelloWorldSubsystem(new DigitalOutput(RobotMap.perpetualLED));
-    this.m_sayHelloCommand = new SayHelloCommand(helloWorldSubsystem);
+    // Instantiate the Guice injector so we can get already wired up instances for
+    // robot commands and command groups
+    m_injector = Guice.createInjector(new RobotModule());
+
+    // Instantiate the button to activate the simple hello world command
     Joystick stick = new Joystick(RobotMap.joystickPort);
     this.m_simpleButton = new JoystickButton(stick, RobotMap.simpleButtonNumber);
 
-    // Additional components for command group demonstration
-    SilenceableHelloWorldSubsystem silenceableHelloWorldSubsystem = 
-        new SilenceableHelloWorldSubsystem(
-            new DigitalOutput(RobotMap.silenceableLED), 
-            new DigitalInput(RobotMap.silencer));
-    SayHelloUntilSilencedCommand sayHelloUntilSilencedCommand = 
-        new SayHelloUntilSilencedCommand(silenceableHelloWorldSubsystem);
-    this.m_sayHelloCommandGroup =
-        new SayHelloInTurnCommandGroup(sayHelloUntilSilencedCommand, m_sayHelloCommand);
+    // Instantiate the button to activate the silenceable command group
     this.m_commandGroupButton = new JoystickButton(stick, RobotMap.commandGroupButtonNumber);
   }
 
@@ -90,8 +76,8 @@ public class Robot extends TimedRobot {
    * method here to contain all that logic.
    */
   public void wireUpOperatorInterface() {
-    m_simpleButton.whileHeld(m_sayHelloCommand);
-    m_commandGroupButton.whileHeld(m_sayHelloCommandGroup);
+    m_simpleButton.whileHeld(m_injector.getInstance(SayHelloCommand.class));
+    m_commandGroupButton.whileHeld(m_injector.getInstance(SayHelloInTurnCommandGroup.class));
   }
 
   /**
@@ -101,7 +87,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     wireUpOperatorInterface();
-    m_chooser.setDefaultOption("Default Auto", m_sayHelloCommand);
+    m_chooser.setDefaultOption("Default Auto", m_injector.getInstance(SayHelloCommand.class));
     // chooser.addObject("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
   }

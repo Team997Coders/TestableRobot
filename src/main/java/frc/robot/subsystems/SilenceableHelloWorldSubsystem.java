@@ -7,6 +7,9 @@
 
 package frc.robot.subsystems;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 
@@ -35,7 +38,9 @@ public class SilenceableHelloWorldSubsystem extends HelloWorldSubsystem {
    * @param led         Digital output hardware our led is connected to
    * @param silencer    Digital input hardware to sense when to be silent
    */
-  public SilenceableHelloWorldSubsystem(DigitalOutput led, DigitalInput silencer) {
+  @Inject
+  public SilenceableHelloWorldSubsystem(
+        @Named("silenceableLED") DigitalOutput led, @Named("silencer") DigitalInput silencer) {
     // Must call superclass to set its instance variables and do any other initialization
     super(led);
 

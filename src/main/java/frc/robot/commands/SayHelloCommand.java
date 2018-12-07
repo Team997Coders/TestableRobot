@@ -9,6 +9,8 @@ package frc.robot.commands;
 
 import java.util.concurrent.TimeUnit;
 
+import com.google.inject.Inject;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.subsystems.HelloWorldSubsystem;
@@ -27,6 +29,7 @@ public class SayHelloCommand extends Command {
    * 
    * @param helloWorldSubsystem   The subsystem that the command will manipulate.
    */
+  @Inject
   public SayHelloCommand(HelloWorldSubsystem helloWorldSubsystem) {
     requires(helloWorldSubsystem);
     this.m_helloWorldSubsystem = helloWorldSubsystem;

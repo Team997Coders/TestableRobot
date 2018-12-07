@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import com.google.inject.Inject;
+
 import frc.robot.subsystems.SilenceableHelloWorldSubsystem;
 
 /**
@@ -27,6 +29,7 @@ public class SayHelloUntilSilencedCommand extends SayHelloCommand {
    * 
    * @param silenceableHelloWorldSubsystem   Our subsystem to act upon
    */
+  @Inject
   public SayHelloUntilSilencedCommand(
       SilenceableHelloWorldSubsystem silenceableHelloWorldSubsystem) {
     // Must call super class constructor to set instance variables properly

@@ -7,6 +7,9 @@
 
 package frc.robot.subsystems;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -35,7 +38,8 @@ public class HelloWorldSubsystem extends Subsystem {
    * 
    * @param led   Digital output hardware our led is connected to
    */
-  public HelloWorldSubsystem(DigitalOutput led) {
+  @Inject
+  public HelloWorldSubsystem(@Named("perpetualLED") DigitalOutput led) {
 
     // Another invariant is that our class always assumes that a
     // valid reference to our LED will exist. So complain 
