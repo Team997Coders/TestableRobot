@@ -47,6 +47,7 @@ public class Robot extends TimedRobot {
   // Declare operator interface
   private final Button m_simpleButton;
   private final Button m_commandGroupButton;
+  // Guice injector that will provide instances of subsystems, commands, and command groups
   private final Injector m_injector;
 
   Command m_autonomousCommand;
@@ -76,6 +77,7 @@ public class Robot extends TimedRobot {
    * method here to contain all that logic.
    */
   public void wireUpOperatorInterface() {
+    // Use Guice to get an already wired up command or command group
     m_simpleButton.whileHeld(m_injector.getInstance(SayHelloCommand.class));
     m_commandGroupButton.whileHeld(m_injector.getInstance(SayHelloInTurnCommandGroup.class));
   }
