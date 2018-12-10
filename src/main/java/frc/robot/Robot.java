@@ -10,16 +10,12 @@ package frc.robot;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import frc.robot.commandgroups.SayHelloInTurnCommandGroup;
 import frc.robot.commands.SayHelloCommand;
 
 /**
@@ -44,11 +40,9 @@ import frc.robot.commands.SayHelloCommand;
  * subsystems, commands, and commandgroups without a roboRio and/or complex simulators.
  */
 public class Robot extends TimedRobot {
-  // Declare operator interface
-  private final Button m_simpleButton;
-  private final Button m_commandGroupButton;
   // Guice injector that will provide instances of subsystems, commands, and command groups
   private final Injector m_injector;
+  private OI m_oi = null;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -63,23 +57,6 @@ public class Robot extends TimedRobot {
     // Instantiate the Guice injector so we can get already wired up instances for
     // robot commands and command groups
     m_injector = Guice.createInjector(new RobotModule());
-
-    // Instantiate the button to activate the simple hello world command
-    Joystick stick = new Joystick(RobotMap.joystickPort);
-    this.m_simpleButton = new JoystickButton(stick, RobotMap.simpleButtonNumber);
-
-    // Instantiate the button to activate the silenceable command group
-    this.m_commandGroupButton = new JoystickButton(stick, RobotMap.commandGroupButtonNumber);
-  }
-
-  /**
-   * Instead of using the OI class in the original template, simply add a
-   * method here to contain all that logic.
-   */
-  public void wireUpOperatorInterface() {
-    // Use Guice to get an already wired up command or command group
-    m_simpleButton.whileHeld(m_injector.getInstance(SayHelloCommand.class));
-    m_commandGroupButton.whileHeld(m_injector.getInstance(SayHelloInTurnCommandGroup.class));
   }
 
   /**
@@ -88,7 +65,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    wireUpOperatorInterface();
+    m_oi = m_injector.getInstance(OI.class);
     m_chooser.addDefault("Default Auto", m_injector.getInstance(SayHelloCommand.class));
     // chooser.addObject("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
