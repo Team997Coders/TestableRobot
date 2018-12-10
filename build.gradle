@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2019.1.1-beta-2a"
+    id "edu.wpi.first.GradleRIO" version "2019.0.0-alpha-3"
 }
 
 def ROBOT_CLASS = "frc.robot.Robot"
@@ -9,7 +9,7 @@ def ROBOT_CLASS = "frc.robot.Robot"
 // This is added by GradleRIO's backing project EmbeddedTools.
 deploy {
     targets {
-        roboRIO("roborio") {
+        target("roborio", edu.wpi.first.gradlerio.frc.RoboRIO) {
             // Team number is loaded either from the .wpilib/wpilib_preferences.json
             // or from command line. If not found an exception will be thrown.
             // You can use getTeamOrDefault(team) instead of getTeamNumber if you
@@ -18,46 +18,42 @@ deploy {
         }
     }
     artifacts {
-        frcJavaArtifact('frcJava') {
+        artifact('frcJava', edu.wpi.first.gradlerio.frc.FRCJavaArtifact) {
             targets << "roborio"
             // Debug can be overridden by command line, for use with VSCode
             debug = getDebugOrDefault(false)
         }
-        // Built in artifact to deploy arbitrary files to the roboRIO.
-        fileTreeArtifact('frcStaticFileDeploy') {
-            // The directory below is the local directory to deploy
-            files = fileTree(dir: 'src/main/deploy')
-            // Deploy to RoboRIO target, into /home/lvuser/deploy
-            targets << "roborio"
-            directory = '/home/lvuser/deploy'
-        }
     }
-}
-
-// Needed to drag down testing framework...what I do not yet know is how
-// this will behave at competition when workstation is not connected to
-// the Internet. Need to test behavior...
-repositories {
-    mavenCentral()
-}
-
-project.repositories.maven { repo ->
-    repo.name = "WPI"
-    repo.url = "http://first.wpi.edu/FRC/roborio/maven/release"
 }
 
 // Defining my dependencies. In this case, WPILib (+ friends), CTRE Toolsuite (Talon SRX)
 // and NavX.
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile wpilib()
-    compile javaVendorLibraries()
-    nativeZip jniRoboRIOVendorLibraries()
-    nativeDesktopZip jniDesktopVendorLibraries()
-    implementation 'com.google.inject:guice:4.2.2'
+    compile ctre()
+    compile navx()
+    compile 'com.google.inject:guice:4.2.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.2.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
     testImplementation 'org.mockito:mockito-core:2.23.4'
+}
+
+sourceSets {
+    test {
+        java.srcDir 'src/main/java' // tests in main shall contain your tests...usually put them in /src/test/java/...
+    }
+    main {
+        java.exclude 'frc/robot/test/**' // exclude from main source set 
+    }
+}
+
+test {
+    useJUnitPlatform()
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
@@ -68,24 +64,11 @@ jar {
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
 }
 
-test {
-    useJUnitPlatform()
-}
-
 // Force Java 8 Compatibility mode for deployed code, in case the develoment
 // system is using Java 10.
 compileJava {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
-}
-
-sourceSets {
-    test {
-        java.srcDir 'src/main/java' // tests in main shall contain your tests...usually put them in /src/test/java/...
-    }
-    main {
-        java.exclude 'frc/robot/test/**' // exclude from main source set 
-    }
 }
 
 wrapper {

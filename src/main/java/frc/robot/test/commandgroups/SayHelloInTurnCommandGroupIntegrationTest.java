@@ -41,7 +41,8 @@ public class SayHelloInTurnCommandGroupIntegrationTest extends TestWithScheduler
     DigitalInput silencerMock = mock(DigitalInput.class);
 
     // Mock up our sensor to not call for silence at first
-    when(silencerMock.get()).thenReturn(false);
+    // Which means that the DI is by default pulled up
+    when(silencerMock.get()).thenReturn(true);
 
     // Our two subsystems
     SilenceableHelloWorldSubsystem silenceableHelloWorldSubsystem = 
@@ -54,34 +55,32 @@ public class SayHelloInTurnCommandGroupIntegrationTest extends TestWithScheduler
         new SayHelloUntilSilencedCommand(silenceableHelloWorldSubsystem);
 
     // And finally the command group
-    // This try syntax makes sure that close gets called on the command when it is done
-    try
-    (SayHelloInTurnCommandGroup classUnderTest = 
-        new SayHelloInTurnCommandGroup(sayHelloUntilSilencedCommand, sayHelloCommand)) {
-      // You must start the command for the scheduler to run it
-      // (whenPressed does this for you automatically)
-      classUnderTest.start();
+    SayHelloInTurnCommandGroup classUnderTest = 
+        new SayHelloInTurnCommandGroup(sayHelloUntilSilencedCommand, sayHelloCommand);
 
-      //Act
-      // Start your engines
-      runForDuration(1000);
+    // You must start the command for the scheduler to run it
+    // (whenPressed does this for you automatically)
+    classUnderTest.start();
 
-      // Pre-assertion...second led should not have come on, but first should have
-      verify(firstHelloDigitalOutputMock, atMost(3)).set(true);
-      verify(secondHelloDigitalOutputMock, times(0)).set(true);
+    //Act
+    // Start your engines
+    runForDuration(1000);
 
-      // Trigger our sensor...Silence!
-      // You could start to get fancy and for reusability, hide this
-      // in a static function with a clever name.
-      when(silencerMock.get()).thenReturn(true);
+    // Pre-assertion...second led should not have come on, but first should have
+    verify(firstHelloDigitalOutputMock, atMost(3)).set(true);
+    verify(secondHelloDigitalOutputMock, times(0)).set(true);
 
-      // Start your engines, again...
-      runForDuration(1000);
+    // Trigger our sensor...Silence!
+    // You could start to get fancy and for reusability, hide this
+    // in a static function with a clever name.
+    when(silencerMock.get()).thenReturn(false);
 
-      // Final Assert...second LED came on and ran for a second
-      // First LED was cut off and should not have flashed any more
-      verify(firstHelloDigitalOutputMock, atMost(3)).set(true);
-      verify(secondHelloDigitalOutputMock, atMost(3)).set(true);
-    }
+    // Start your engines, again...
+    runForDuration(1000);
+
+    // Final Assert...second LED came on and ran for a second
+    // First LED was cut off and should not have flashed any more
+    verify(firstHelloDigitalOutputMock, atMost(3)).set(true);
+    verify(secondHelloDigitalOutputMock, atMost(3)).set(true);
   }
 }

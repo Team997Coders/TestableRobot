@@ -60,6 +60,8 @@ public class SilenceableHelloWorldSubsystem extends HelloWorldSubsystem {
    * @return    True if silence is sensed
    */
   public boolean beSilent() {
-    return m_silencer.get(); 
+    // DI is by default pulled up, thus high...be silent action would be pulled low to ground
+    // So invert state of DI to determine beSilent
+    return !m_silencer.get(); 
   }
 }

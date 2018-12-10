@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import edu.wpi.first.wpilibj.HLUsageReporting;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
@@ -21,6 +22,12 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  */
 @ExtendWith(MockHardwareExtension.class)
 public class TestWithScheduler {
+  // Fake out WPILib caring whether or not we have a roboRio. Required for 2018
+  // release but should not be required for 2019.
+  static {
+      HLUsageReporting.SetImplementation(new HLUsageReporting.Null());
+  }
+
   @BeforeAll
   public static void schedulerStart() {
     Scheduler.getInstance().removeAll();
@@ -35,6 +42,6 @@ public class TestWithScheduler {
   @AfterAll
   public static void schedulerDestroy() {
     Scheduler.getInstance().disable();
-    Scheduler.getInstance().close();
+    Scheduler.getInstance().free();
   }
 }

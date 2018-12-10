@@ -12,8 +12,11 @@ import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 
-import edu.wpi.first.hal.HAL;
-import edu.wpi.first.hal.sim.DriverStationSim;
+import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.RobotStateSim;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.TimerSim;
+import edu.wpi.first.wpilibj.hal.HAL;
 import edu.wpi.first.wpilibj.DriverStation;
 
 /**
@@ -44,10 +47,7 @@ public final class MockHardwareExtension implements BeforeAllCallback, AfterAllC
 
   private void initializeHardware() {
     HAL.initialize(500, 0);
-    DriverStationSim dsSim = new DriverStationSim();
-    dsSim.setDsAttached(true);
-    dsSim.setAutonomous(false);
-    dsSim.setEnabled(true);
-    dsSim.setTest(true);
+    RobotState.SetImplementation(new RobotStateSim());
+    Timer.SetImplementation(new TimerSim());
   }
 }

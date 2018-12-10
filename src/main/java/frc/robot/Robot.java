@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     wireUpOperatorInterface();
-    m_chooser.setDefaultOption("Default Auto", m_injector.getInstance(SayHelloCommand.class));
+    m_chooser.addDefault("Default Auto", m_injector.getInstance(SayHelloCommand.class));
     // chooser.addObject("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
   }

@@ -43,13 +43,11 @@ public class SayHelloCommandIntegrationTest extends TestWithScheduler {
     // Note that we do not mock the subsystem because we are going to
     // test the result on the subsystem by exercising behavior on the command.
     HelloWorldSubsystem classUnderTest = new HelloWorldSubsystem(ledMock.getDigitalOutput());
-    try
-    (SayHelloCommand sayHelloCommand = new SayHelloCommand(classUnderTest)) {
-      sayHelloCommand.start();
+    SayHelloCommand sayHelloCommand = new SayHelloCommand(classUnderTest);
+    sayHelloCommand.start();
 
-      // Act
-      runForDuration(3000);
-    }
+    // Act
+    runForDuration(3000);
     
     // Assert
     verify(ledMock.getDigitalOutput(), atLeast(7)).set(true);

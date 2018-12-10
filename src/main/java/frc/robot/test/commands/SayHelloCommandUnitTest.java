@@ -37,17 +37,14 @@ public class SayHelloCommandUnitTest extends TestWithScheduler {
   public void itCanFlashMyLEDEvery200ms() throws InterruptedException {
     // Assemble
     HelloWorldSubsystem mockHelloWorldSubsystem = mock(HelloWorldSubsystem.class);
-    // This try syntax makes sure that close gets called on the command when it is done
-    try
-    (SayHelloCommand classUnderTest = new SayHelloCommand(mockHelloWorldSubsystem)) {
-      // You must start the command for the scheduler to run it
-      // (whenPressed does this for you automatically)
-      classUnderTest.start();
+    SayHelloCommand classUnderTest = new SayHelloCommand(mockHelloWorldSubsystem);
+    // You must start the command for the scheduler to run it
+    // (whenPressed does this for you automatically)
+    classUnderTest.start();
 
-      // Act
-      // Run our command for a given number of milliseconds.
-      runForDuration(3000);  
-    }
+    // Act
+    // Run our command for a given number of milliseconds.
+    runForDuration(3000);  
     
 
     // Assert
@@ -66,21 +63,18 @@ public class SayHelloCommandUnitTest extends TestWithScheduler {
   public void itTurnsOffMyLEDWhenCancelled() throws InterruptedException {
     // Assemble
     HelloWorldSubsystem mockHelloWorldSubsystem = mock(HelloWorldSubsystem.class);
-    // This try syntax makes sure that close gets called on the command when it is done
-    try
-    (SayHelloCommand classUnderTest = new SayHelloCommand(mockHelloWorldSubsystem)) {
-      // You must start the command for the scheduler to run it
-      // (whenPressed does this for you automatically)
-      classUnderTest.start();
+    SayHelloCommand classUnderTest = new SayHelloCommand(mockHelloWorldSubsystem);
+    // You must start the command for the scheduler to run it
+    // (whenPressed does this for you automatically)
+    classUnderTest.start();
 
-      // Act
-      // Run our command for a given number of milliseconds.
-      runForDuration(1000);
-      // Cancel the command
-      classUnderTest.cancel();
-      // Pump the scheduler a bit more to propagate the cancel
-      runForDuration(10);
-    }
+    // Act
+    // Run our command for a given number of milliseconds.
+    runForDuration(1000);
+    // Cancel the command
+    classUnderTest.cancel();
+    // Pump the scheduler a bit more to propagate the cancel
+    runForDuration(10);
 
     // Assert
     // What we really want is a verification that the last call to the mock
