@@ -1,4 +1,4 @@
-# Hello World Testable Command Robot Template
+# Hello World Testable Command Robot Example
 Here is a suggested approach, based on the command robot template, to create a robot project that can be automation tested using JUnit.
 
 The project is a hello world example which flashes an LED when a button 1 is pressed on a joystick.
